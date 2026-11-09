@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Elevator pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;700&family=Lilita+One&display=swap">
+<style>
+/* Layout: Elevator pitch, ett kort i mitten, tidknapp under dra-knappen. Varmt papper och vinröd baksida. */
+/* (motor från Icebreakers) Layout: ett enda kort i mitten, dra-knapp inom tumme, sorteringsval under. Kortet är ett fysiskt objekt och ser likadant ut i båda teman. */
+:root{
+  --bg:#EFE8DA; --fg:#2B2118; --muted:#6B5A48; --line:#D2C5AE;
+  --btn:#2B2118; --btn-fg:#F8F3E8; --chip:#F7F1E4; --chip-on:#FFFFFF; --shadow:rgba(43,33,24,.22);
+  /* kortets egna färger */
+  --paper:#FBF8F1; --ink:#1F2036; --back:#5A1E2D; --gold-b:#E7B13C;
+  --skin:#EFC9A3; --wood:#8A5A3A; --gold:#E7B13C; --steel:#C5CDD8; --night:#27305C; --leaf:#3C8A5E; --ice:#D6E8F4;
+  --display:'Lilita One','Trebuchet MS',system-ui,sans-serif;
+  --ui:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1D1612; --fg:#F2EADB; --muted:#B5A58E; --line:#41342A;
+    --btn:#E8B84A; --btn-fg:#1F160F; --chip:#2A2019; --chip-on:#3A2D23; --shadow:rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1D1612; --fg:#F2EADB; --muted:#B5A58E; --line:#41342A;
+  --btn:#E8B84A; --btn-fg:#1F160F; --chip:#2A2019; --chip-on:#3A2D23; --shadow:rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  --off:210px;
+  background:var(--bg);color:var(--fg);font-family:var(--ui);
+  padding-block:18px 28px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.app{max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:16px;min-width:0}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+h1{font:400 1.7rem/1 var(--display);margin:0;letter-spacing:.01em}
+.count{margin:0;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+
+.topr{display:flex;align-items:center;gap:12px}
+.helpbtn{min-height:38px;padding:0 14px}
+body.help .stage,body.help .draw:not(#helpclose),body.help .modes,body.help .chips,body.help .foot,body.help .count{display:none}
+.help{display:flex;flex-direction:column;gap:12px;max-width:62ch}
+.help h2{font:400 1.9rem/1.05 var(--display);margin:4px 0 0;text-wrap:balance}
+.help h2:focus{outline:none}
+.help h3{font:700 .75rem/1 var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:10px 0 0}
+.help p,.help li{font-size:1rem;line-height:1.5;margin:0}
+.help ol,.help ul{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:8px}
+.help code{font:700 .9rem/1.3 ui-monospace,Menlo,Consolas,monospace;background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:2px 6px;overflow-wrap:anywhere}
+.help .note{color:var(--muted);font-size:.9rem}
+.help .draw{margin-top:8px}
+.stage{perspective:1000px;display:flex;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:22px}
+.stage:focus-visible,.draw:focus-visible,.chip:focus-visible,.shuffle:focus-visible{outline:3px solid var(--fg);outline-offset:3px}
+
+[data-cat]{--art-deep:color-mix(in srgb,var(--art) 62%,#1F2036)}
+[data-cat="karaktar"]{--art:#B5372E;--tint:#F5D9D3}
+[data-cat="sak"]{--art:#B7791F;--tint:#F4E4BE}
+[data-cat="plats"]{--art:#2E7A57;--tint:#D3EADB}
+[data-cat="egenskap"]{--art:#6A4C9C;--tint:#E2D9F0}
+[data-cat="handelse"]{--art:#1F6F9F;--tint:#D0E5F2}
+[data-cat="slut"]{--art:#B8397A;--tint:#F5D6E6}
+
+.card{
+  width:min(100%,340px,max(220px,calc((100svh - var(--off)) * .714)));
+  aspect-ratio:5/7;background:var(--paper);color:var(--ink);
+  border:3px solid var(--ink);border-radius:20px;padding:12px;
+  display:flex;flex-direction:column;gap:10px;
+  box-shadow:0 8px 0 var(--shadow);backface-visibility:hidden;
+}
+.label{display:flex;align-items:center;gap:8px;font:700 .72rem/1 var(--ui);letter-spacing:.16em;text-transform:uppercase}
+.label i{width:12px;height:12px;background:var(--art);border:2px solid var(--ink);border-radius:3px;display:block}
+.art{flex:1;min-height:0;background:var(--tint);border:2.5px solid var(--ink);border-radius:12px;overflow:hidden;padding:10px}
+.art svg{width:100%;height:100%;display:block;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.name{font:400 clamp(1.6rem,7.4vw,2.2rem)/1.05 var(--display);text-align:center;text-wrap:balance;min-height:1.1em;display:grid;place-items:center;padding-inline:4px}
+.q{font:700 clamp(.88rem,3.9vw,1.05rem)/1.28 var(--ui);text-align:center;text-wrap:balance;min-height:3.8em;display:grid;place-items:center;padding-inline:2px}
+
+.art .a{fill:var(--art)}.art .b{fill:var(--art-deep)}.art .k{fill:var(--ink)}.art .p{fill:var(--paper)}
+.art .s{fill:var(--skin)}.art .w{fill:var(--wood)}.art .g{fill:var(--gold)}.art .t{fill:var(--steel)}
+.art .n{fill:var(--night)}.art .f{fill:var(--leaf)}.art .i{fill:var(--ice)}
+.art .z{fill:none}.art .x{stroke:none}.art .hl{stroke:var(--paper)}.art .sa{stroke:var(--art)}
+.art .qm{font:400 22px var(--display);fill:var(--ink);stroke:none}
+
+.card.back{background:var(--back);padding:10px;border-color:var(--ink)}
+.card.back svg{width:100%;height:100%;display:block}
+.card.back .ln{fill:none;stroke:var(--gold-b);stroke-width:2}
+.card.back .fl{fill:var(--gold-b);stroke:none}
+.card.back .bt{font:400 25px var(--display);fill:var(--gold-b);text-anchor:middle}
+.card.back .bs{font:700 11px var(--ui);fill:var(--gold-b);text-anchor:middle;letter-spacing:.18em;text-transform:uppercase}
+
+.draw{
+  appearance:none;border:0;background:var(--btn);color:var(--btn-fg);
+  font:400 1.45rem/1 var(--display);letter-spacing:.02em;
+  min-height:60px;border-radius:16px;cursor:pointer;width:100%;
+  box-shadow:0 5px 0 var(--shadow);transition:transform .08s,box-shadow .08s;
+}
+.draw:active{transform:translateY(4px);box-shadow:0 1px 0 var(--shadow)}
+
+.hand{display:flex;gap:10px;justify-content:center;width:100%}
+.hand[data-n="2"] .card{width:calc((100% - 10px)/2);padding:8px;border-radius:14px;gap:6px;box-shadow:0 6px 0 var(--shadow)}
+.hand[data-n="2"] .card.back{padding:6px}
+.hand[data-n="2"] .label{font-size:.58rem;letter-spacing:.08em;gap:6px}
+.hand[data-n="2"] .label i{width:9px;height:9px;border-width:1.5px}
+.hand[data-n="2"] .art{padding:5px;border-radius:9px;border-width:2px}
+.hand[data-n="2"] .name{font-size:clamp(1rem,5.2vw,1.45rem);min-height:1.1em;padding-inline:0}
+.hand[data-n="2"] .q{font-size:clamp(.66rem,3vw,.8rem);line-height:1.22;min-height:4.8em;padding:0}
+.modes{display:flex;align-items:center;justify-content:center;gap:12px;font-size:.85rem;font-weight:700;color:var(--muted)}
+.seg{display:flex;border:2px solid var(--line);border-radius:999px;overflow:hidden}
+.segb,.posb,.npb{appearance:none;border:0;background:var(--chip);color:var(--fg);min-width:56px;min-height:42px;font:700 1rem/1 var(--ui);cursor:pointer}
+.segb[aria-pressed="true"],.posb[aria-pressed="true"],.npb[aria-pressed="true"]{background:var(--btn);color:var(--btn-fg)}
+.posb,.npb{min-width:44px}
+.code{width:150px;min-height:42px;padding:0 14px;background:var(--chip);color:var(--fg);border:2px solid var(--line);border-radius:999px;font:700 1rem/1 var(--ui);text-align:center}
+.rnd{font-size:.8rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.code::placeholder{color:var(--muted);font-weight:500}
+.card.end,.hand[data-n="2"] .card.end{width:min(100%,340px,max(260px,calc((100svh - var(--off)) * .714)));padding:22px;gap:14px;justify-content:center;align-items:center;text-align:center;border-radius:20px}
+.endt{font:400 clamp(1.7rem,8vw,2.3rem)/1.05 var(--display);text-wrap:balance}
+.card.end p{margin:0;font-size:1rem;line-height:1.4;max-width:24ch}
+.endb{display:flex;flex-direction:column;gap:10px;width:100%}
+.card.end .chip{justify-content:center;background:transparent;color:var(--ink);border-color:var(--ink)}
+.card.end .code{width:100%;background:var(--paper);color:var(--ink);border-color:var(--ink)}
+.card.end .code::placeholder{color:#6d6a78}
+.code:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.modes{flex-wrap:wrap}
+.segb:focus-visible,.posb:focus-visible,.npb:focus-visible{outline:3px solid var(--fg);outline-offset:-3px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{
+  appearance:none;display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px;
+  background:var(--chip);color:var(--fg);border:2px solid var(--line);border-radius:999px;
+  font:700 .85rem/1 var(--ui);cursor:pointer;
+}
+.chip i{width:12px;height:12px;border-radius:50%;background:var(--art,var(--fg));display:block}
+.chip[aria-pressed="true"]{background:var(--chip-on);border-color:var(--fg)}
+.shuffle{
+  appearance:none;background:none;border:0;color:var(--muted);font:700 .85rem/1 var(--ui);
+  min-height:44px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;align-self:center;
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.foot{display:flex;justify-content:center;flex-wrap:wrap;column-gap:24px}
+.exit{display:none;position:fixed;z-index:20;top:calc(8px + env(safe-area-inset-top,0px));right:calc(8px + env(safe-area-inset-right,0px))}
+body.full{--off:130px}
+body.full .top,body.full .modes,body.full .chips,body.full .foot{display:none}
+body.full .exit{display:inline-flex}
+body.full .app{max-width:520px;min-height:calc(100svh - 120px);justify-content:center}
+body.full .hand[data-n="1"] .card{width:min(100%,460px,max(220px,calc((100svh - var(--off)) * .714)))}
+@media (prefers-reduced-motion: reduce){.draw{transition:none}}
+
+.tmb{appearance:none;border:0;background:var(--chip);color:var(--fg);min-width:56px;min-height:42px;font:700 1rem/1 var(--ui);cursor:pointer}
+.tmb[aria-pressed="true"]{background:var(--btn);color:var(--btn-fg)}
+.tmb:focus-visible{outline:3px solid var(--fg);outline-offset:-3px}
+#timer{font-variant-numeric:tabular-nums;min-width:132px;justify-content:center}
+#timer.up{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+body.full .modes.tmrow{display:flex}
+body.full .tmrow>span,body.full .tmrow .seg{display:none}
+body.full #timer{min-height:52px;font-size:1.05rem}
+.helpbody{display:flex;flex-direction:column;gap:12px}
+#langbtn{min-width:44px;justify-content:center}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="top">
+    <h1>Elevator pitch</h1>
+    <div class="topr"><p class="count" id="count"></p><button type="button" class="chip helpbtn" id="langbtn" lang="en">EN</button><button type="button" class="chip helpbtn" id="helpbtn" aria-expanded="false" aria-controls="help">Regler</button></div>
+  </header>
+  <div class="stage" id="stage" role="button" tabindex="0" aria-label="Dra ett kort">
+    <div class="hand" id="hand" data-n="1"></div>
+  </div>
+  <button class="draw" id="draw" type="button">Dra kort</button>
+  <div class="modes tmrow" id="tmgroup" role="group" aria-label="Pitch-tid"><span id="tmlabel">Pitch-tid</span><div class="seg"><button type="button" class="tmb" id="tmoff" data-t="0" aria-pressed="false">Av</button><button type="button" class="tmb" data-t="30" aria-pressed="true">30 s</button><button type="button" class="tmb" data-t="60" aria-pressed="false">60 s</button></div><button type="button" class="chip" id="timer">Starta 30 s</button></div>
+  <div class="modes" id="coderow" hidden><label for="code" id="codelabel">Spelkod</label><input id="code" class="code" type="text" maxlength="16" placeholder="gemensamt ord" autocomplete="off" autocapitalize="none" spellcheck="false"><span class="rnd" id="rnd"></span></div>
+  <div class="modes" id="npgroup" role="group" aria-label="Antal spelare"><span id="nplabel">Spelare</span><div class="seg"><button type="button" class="npb" data-np="1" aria-pressed="true">1</button><button type="button" class="npb" data-np="2" aria-pressed="false">2</button><button type="button" class="npb" data-np="3" aria-pressed="false">3</button><button type="button" class="npb" data-np="4" aria-pressed="false">4</button></div></div>
+  <div class="modes" id="posrow" role="group" aria-label="Din position" hidden><span id="poslabel">Din position</span><div class="seg"><button type="button" class="posb" data-pos="1" aria-pressed="true">1</button><button type="button" class="posb" data-pos="2" aria-pressed="false">2</button><button type="button" class="posb" data-pos="3" aria-pressed="false">3</button><button type="button" class="posb" data-pos="4" aria-pressed="false">4</button></div></div>
+  <div class="modes" id="ngroup" role="group" aria-label="Antal kort per drag"><span id="nlabel">Kort per drag</span><div class="seg"><button type="button" class="segb" data-n="1" aria-pressed="true">1</button><button type="button" class="segb" data-n="2" aria-pressed="false">2</button></div></div>
+  <div class="chips" id="chips" role="group" aria-label="Vilka kort ska dras?"></div>
+  <div class="foot"><button class="shuffle" id="shuffle" type="button">Blanda om högen</button><button class="shuffle" id="full" type="button" aria-pressed="false">Helskärm</button></div>
+  <button class="chip exit" id="exit" type="button">Stäng helskärm</button>
+  <section id="help" class="help" hidden aria-labelledby="helph">
+    <h2 id="helph" tabindex="-1">Så spelar ni</h2>
+    <div id="helpbody" class="helpbody"></div>
+    <button type="button" class="draw" id="helpclose">Tillbaka till spelet</button>
+  </section>
+  <p class="sr" id="live" aria-live="polite"></p>
+</main>
+
+<script>
+/* Hjälpare för ritningarna */
+const S=(x,y,s=9)=>`<path class="g" transform="translate(${x} ${y}) scale(${s/9})" d="M0-9Q2-2 9 0Q2 2 0 9Q-2 2-9 0Q-2-2 0-9Z"/>`;
+const sword=()=>`<path class="t" d="M55 76V24L60 12l5 12v52z"/><path class="z" d="M60 26v44"/><rect class="g" x="42" y="76" width="36" height="7" rx="3"/><rect class="w" x="56" y="83" width="8" height="16" rx="2"/><circle class="g" cx="60" cy="104" r="5"/>`;
+const pine=()=>`<rect class="w" x="-4" y="20" width="8" height="16"/><path class="f" d="M0-40L-18-8H-9L-26 22H26L9-8H18Z"/>`;
+const ring=(cx,cy,ro,ri)=>`<path class="g" fill-rule="evenodd" d="M${cx-ro} ${cy}a${ro} ${ro} 0 1 0 ${ro*2} 0a${ro} ${ro} 0 1 0 ${-ro*2} 0zM${cx-ri} ${cy}a${ri} ${ri} 0 1 0 ${ri*2} 0a${ri} ${ri} 0 1 0 ${-ri*2} 0z"/>`;
+const coin=(x,y)=>`<path class="g" d="M${x-18} ${y-7}V${y}A18 6 0 0 0 ${x+18} ${y}V${y-7}Z"/><ellipse class="g" cx="${x}" cy="${y-7}" rx="18" ry="6"/>`;
+const link=()=>`<path class="t" fill-rule="evenodd" d="M26 44h16a16 16 0 0 1 0 32H26a16 16 0 0 1 0-32zM26 53h16a7 7 0 0 1 0 14H26a7 7 0 0 1 0-14z"/>`;
+const SP="M60 60a4 4 0 0 1 8 0a8 8 0 0 1-16 0a12 12 0 0 1 24 0a16 16 0 0 1-32 0a20 20 0 0 1 40 0a24 24 0 0 1-48 0a28 28 0 0 1 56 0";
+
+const BASE=[
+/* ---------- KARAKTÄRER ---------- */
+{k:'karaktar',n:'Kung',a:`<path class="a" d="M26 112c0-22 15-32 34-32s34 10 34 32z"/><circle class="s" cx="60" cy="62" r="20"/><path class="p" d="M42 66q0 26 18 28q18-2 18-28q-6 12-18 12t-18-12z"/><path class="g" d="M40 46L38 24L52 36L60 18L68 36L82 24L80 46Z"/><circle class="k x" cx="53" cy="58" r="2.4"/><circle class="k x" cx="67" cy="58" r="2.4"/>`},
+{k:'karaktar',n:'Prinsessa',a:`<path class="w" d="M36 100V58q0-26 24-26t24 26v42q-8 4-12-6H48q-4 10-12 6z"/><path class="a" d="M30 116c0-18 12-26 30-26s30 8 30 26z"/><circle class="s" cx="60" cy="62" r="18"/><path class="w" d="M42 58q4-18 18-18t18 18q-12-8-18-4t-18 4z"/><path class="g" d="M46 40l4-12 5 7 5-11 5 11 5-7 4 12z"/><circle class="k x" cx="53" cy="64" r="2.2"/><circle class="k x" cx="67" cy="64" r="2.2"/><path class="z" d="M54 72q6 5 12 0"/>`},
+{k:'karaktar',n:'Riddare',a:`<path class="a" d="M24 114c0-20 14-28 36-28s36 8 36 28z"/><path class="t" d="M38 62q0-28 22-28t22 28v22q0 8-8 8H46q-8 0-8-8z"/><rect class="k" x="42" y="60" width="36" height="7" rx="2"/><path class="z" d="M60 34v26M60 67v25"/><path class="a" d="M58 36q-10-16 6-24q14 8 4 24z"/>`},
+{k:'karaktar',n:'Häxa',a:`<path class="n" d="M20 108c0-20 16-30 40-30s40 10 40 30z"/><circle class="f" cx="60" cy="66" r="17"/><path class="n" d="M32 52h56l-4 8H36z"/><path class="n" d="M44 52L62 10Q66 6 72 14L76 52Z"/><path class="a" d="M46.5 44h28.5l1 6H44z"/><circle class="g" cx="53" cy="65" r="3"/><circle class="g" cx="67" cy="65" r="3"/><path class="z" d="M60 66l-3 8h6"/><path class="z" d="M53 77q7 4 14 0"/>`},
+{k:'karaktar',n:'Trollkarl',a:`<path class="n" d="M26 114c0-20 14-30 34-30s34 10 34 30z"/><circle class="s" cx="60" cy="64" r="17"/><path class="p" d="M43 66q0 30 17 32q17-2 17-32q-8 12-17 12t-17-12z"/><path class="n" d="M38 50h44l-6 8H44z"/><path class="a" d="M46 50Q50 30 62 8Q70 28 74 50Z"/>${S(62,34,7)}<circle class="k x" cx="54" cy="63" r="2"/><circle class="k x" cx="66" cy="63" r="2"/>`},
+{k:'karaktar',n:'Tomte',a:`<path class="t" d="M30 114c0-18 12-24 30-24s30 6 30 24z"/><path class="p" d="M36 58C34 98 48 106 60 106S86 98 84 58Z"/><circle class="s" cx="60" cy="70" r="6"/><path class="a" d="M34 60Q38 24 72 12Q88 8 86 26Q82 42 86 60Z"/>`},
+{k:'karaktar',n:'Troll',a:`<circle class="f" cx="32" cy="60" r="6"/><circle class="f" cx="88" cy="60" r="6"/><path class="w" d="M22 114c0-24 16-34 38-34s38 10 38 34z"/><path class="f" d="M34 62q0-28 26-28t26 28q0 24-26 24t-26-24z"/><path class="z" d="M54 34l-2-8M60 33v-9M66 34l2-8"/><ellipse class="f" cx="60" cy="64" rx="7" ry="9"/><circle class="p" cx="48" cy="54" r="5"/><circle class="p" cx="72" cy="54" r="5"/><circle class="k x" cx="49" cy="55" r="2"/><circle class="k x" cx="71" cy="55" r="2"/><path class="z" d="M40 46l16 4M80 46l-16 4"/><path class="z" d="M46 76q14 8 28 0"/><path class="p" d="M50 77l3 9 3-8zM70 77l-3 9-3-8z"/>`},
+{k:'karaktar',n:'Drake',a:`<path class="g" d="M50 46L40 22L62 40Z"/><path class="a" d="M20 88C20 56 44 40 66 44L100 52L104 64L88 66L92 74L72 78C60 96 36 104 20 88Z"/><path class="g" d="M104 58q10-8 14 2q-6-2-6 4q6 2 4 8q-8-2-12-4z"/><path class="p" d="M78 66l3 6 3-6zM90 65l3 6 3-6z"/><ellipse class="g" cx="64" cy="56" rx="6" ry="4.5"/><path class="z" d="M64 52v8"/><circle class="k x" cx="96" cy="57" r="1.8"/>`},
+{k:'karaktar',n:'Varg',a:`<path class="t" d="M26 28L36 56Q30 68 32 80Q40 106 60 106Q80 106 88 80Q90 68 84 56L94 28L70 42Q60 40 50 42Z"/><path class="b" d="M32 38l4 12 8-8zM88 38l-4 12-8-8z"/><ellipse class="g" cx="46" cy="64" rx="7" ry="4.5"/><ellipse class="g" cx="74" cy="64" rx="7" ry="4.5"/><path class="z" d="M46 60v8M74 60v8"/><path class="p" d="M46 82q14-6 28 0q-2 14-14 18q-12-4-14-18z"/><path class="k x" d="M54 84h12l-6 7z"/><path class="z" d="M60 91v6"/>`},
+{k:'karaktar',n:'Älva',a:`<path class="p" d="M60 66C40 56 22 38 20 22 34 22 52 40 60 62z"/><path class="p" d="M60 66C80 56 98 38 100 22 86 22 68 40 60 62z"/><path class="p" d="M60 70C44 74 30 86 30 98 44 96 56 86 60 74z"/><path class="p" d="M60 70c16 4 30 16 30 28-14-2-26-12-30-24z"/><path class="a" d="M52 74h16l4 22H48z"/><circle class="s" cx="60" cy="62" r="9"/><path class="g" d="M51 58q9-14 18 0q-9-4-18 0z"/><path class="z" d="M72 82l16-16"/>${S(92,58,8)}`},
+
+/* ---------- SAKER ---------- */
+{k:'sak',n:'Svärd',a:`<g transform="rotate(35 60 60)">${sword()}</g>${S(26,26,7)}`},
+{k:'sak',n:'Magisk ring',a:`${ring(60,76,28,18)}<path class="a" d="M48 50L54 34L66 34L72 50L60 62Z"/><path class="z hl" d="M54 42h12"/>${S(24,40,7)}${S(98,50,8)}`},
+{k:'sak',n:'Trollstav',a:`<g transform="rotate(35 60 60)"><rect class="w" x="55" y="34" width="10" height="78" rx="4"/><path class="g" d="M60 6l6 14 15 1-12 10 4 15-13-8-13 8 4-15-12-10 15-1z"/><path class="a" d="M55 56h10v6H55zM55 84h10v6H55z"/></g>${S(22,30,7)}${S(96,90,6)}`},
+{k:'sak',n:'Nyckel',a:`<g transform="rotate(-35 60 60)"><circle class="g" cx="60" cy="30" r="16"/><circle class="p" cx="60" cy="30" r="6"/><rect class="g" x="56" y="44" width="8" height="58" rx="2"/><path class="g" d="M64 84h14v8H64zM64 96h10v8H64z"/></g>`},
+{k:'sak',n:'Förgiftat äpple',a:`<path class="a" d="M60 38c-12-10-34-6-34 20 0 26 18 46 34 40 16 6 34-14 34-40 0-26-22-30-34-20z"/><path class="z" d="M60 38c0-8 2-14 8-20"/><path class="f" d="M62 28q12-12 24-6q-6 14-24 6z"/><circle class="p" cx="60" cy="72" r="11"/><circle class="k x" cx="55.5" cy="70" r="2.6"/><circle class="k x" cx="64.5" cy="70" r="2.6"/><path class="z" d="M56 80v-4M60 80v-4M64 80v-4"/>`},
+{k:'sak',n:'Spegel',a:`<path class="g" d="M54 88h12l2 26H52z"/><ellipse class="g" cx="60" cy="52" rx="30" ry="38"/><ellipse class="i" cx="60" cy="52" rx="23" ry="31"/><path class="z hl" d="M46 40q4-10 14-12"/>${S(92,26,7)}`},
+{k:'sak',n:'Skattkista',a:`<path class="w" d="M20 58q0-28 40-28t40 28z"/><rect class="w" x="20" y="58" width="80" height="44" rx="4"/><path class="g" d="M20 58h80v8H20z"/><rect class="g" x="30" y="40" width="8" height="62"/><rect class="g" x="82" y="40" width="8" height="62"/><rect class="g" x="52" y="58" width="16" height="22" rx="3"/><circle class="k x" cx="60" cy="68" r="3"/>${S(16,22,7)}${S(104,24,8)}`},
+{k:'sak',n:'Trolldryck',a:`<rect class="w" x="52" y="8" width="16" height="10" rx="3"/><path class="i" d="M50 14H70V38L90 74Q96 96 60 96Q24 96 30 74L50 38Z"/><path class="a" d="M36 74Q60 66 84 74Q90 90 60 92Q30 90 36 74Z"/><circle class="p" cx="52" cy="82" r="3"/><circle class="p" cx="66" cy="79" r="2.4"/><circle class="p" cx="60" cy="52" r="3"/><circle class="p" cx="64" cy="62" r="2"/>`},
+
+/* ---------- PLATSER ---------- */
+{k:'plats',n:'Slott',a:`<rect class="t" x="30" y="52" width="60" height="52"/><path class="t" d="M44 52V44H52V52ZM68 52V44H76V52Z"/><rect class="t" x="16" y="38" width="22" height="66"/><rect class="t" x="82" y="38" width="22" height="66"/><path class="a" d="M12 40L27 12L42 40Z"/><path class="a" d="M78 40L93 12L108 40Z"/><path class="z" d="M27 12V3"/><path class="a" d="M27 3l12 4-12 4z"/><path class="n" d="M50 104V84Q60 68 70 84V104Z"/><rect class="g" x="24" y="56" width="6" height="12"/><rect class="g" x="90" y="56" width="6" height="12"/>`},
+{k:'plats',n:'Mörk skog',a:`<circle class="p" cx="94" cy="24" r="10"/><g transform="translate(30 66) scale(.85)">${pine()}</g><g transform="translate(90 68) scale(.85)">${pine()}</g><g transform="translate(60 62) scale(1.1)">${pine()}</g><path class="b x" d="M0 104H120V120H0Z"/><circle class="g x" cx="44" cy="96" r="2.2"/><circle class="g x" cx="50" cy="96" r="2.2"/>`},
+{k:'plats',n:'Grotta',a:`<path class="t" d="M10 108Q14 44 60 34Q106 44 110 108Z"/><path class="n" d="M38 108Q38 66 60 64Q82 66 82 108Z"/><path class="p" d="M44 68l3 10 3-10zM68 66l3 12 3-12z"/><path class="g" d="M50 108l4-7 4 7zM64 108l3-6 3 6z"/>`},
+{k:'plats',n:'Bergstopp',a:`<circle class="g" cx="22" cy="26" r="8"/><path class="t" d="M4 108L44 34L84 108Z"/><path class="p" d="M44 34L32.6 55L39 50L45 57L51 51L55.3 55Z"/><path class="b" d="M50 108L88 46L116 108Z"/><path class="p" d="M88 46L77 64L83 60L89 66L94 60L96 64Z"/>`},
+{k:'plats',n:'Högt torn',a:`<circle class="p" cx="96" cy="26" r="10"/>${S(22,30,7)}<path class="t" d="M42 110L46 40H74L78 110Z"/><path class="t" d="M40 40h40v6H40z"/><path class="a" d="M38 42L60 6L82 42Z"/><path class="g" d="M54 64q6-10 12 0v14H54z"/><path class="n" d="M52 110V94q8-10 16 0v16z"/><path class="z" d="M47 86h26"/>`},
+{k:'plats',n:'Sjö',a:`<circle class="g" cx="96" cy="26" r="9"/><path class="t" d="M0 62L26 34L50 62Z"/><path class="t" d="M36 62L72 26L110 62Z"/><rect class="i x" x="0" y="62" width="120" height="58"/><path class="z" d="M0 62H120"/><path class="z" d="M18 78q8-5 16 0t16 0M58 92q8-5 16 0t16 0M24 104q8-4 14 0t14 0"/><path class="z" d="M100 104V76M107 104V72M93 104V80"/><ellipse class="w" cx="100" cy="72" rx="3" ry="6"/><ellipse class="w" cx="107" cy="68" rx="3" ry="6"/>`},
+{k:'plats',n:'Stuga i skogen',a:`<rect class="w" x="26" y="58" width="68" height="48"/><rect class="t" x="76" y="26" width="10" height="22"/><path class="a" d="M16 62L60 24L104 62Z"/><path class="n" d="M52 106V82q8-10 16 0v24z"/><rect class="g" x="32" y="70" width="14" height="14"/><path class="z" d="M39 70v14M32 77h14"/><path class="z" d="M81 20q-6-5 0-10q6-5 0-9"/>`},
+{k:'plats',n:'Gammal bro',a:`<rect class="i x" x="0" y="84" width="120" height="36"/><path class="n" d="M34 84Q34 58 60 58Q86 58 86 84Z"/><path class="t" d="M6 46H114V84H86Q86 58 60 58Q34 58 34 84H6Z"/><rect class="t" x="6" y="38" width="108" height="8"/><path class="z" d="M6 66H34M86 66H114M20 46V66M100 46V66"/><circle class="g" cx="52" cy="76" r="3.5"/><circle class="g" cx="68" cy="76" r="3.5"/><path class="z" d="M10 102q8-4 16 0t16 0M70 108q8-4 16 0t16 0"/>`},
+
+/* ---------- EGENSKAPER ---------- */
+{k:'egenskap',n:'Modig',a:`<path class="a" d="M60 12L100 24V58Q100 90 60 110Q20 90 20 58V24Z"/><path class="z hl" d="M60 20L92 30V58Q92 82 60 98Q28 82 28 58V30Z"/><path class="p" d="M60 30L67 45L83 47L71 58L75 74L60 65L45 74L49 58L37 47L53 45Z"/>`},
+{k:'egenskap',n:'Listig',a:`<path class="a" d="M16 18L44 36Q60 32 76 36L104 18L98 62Q88 96 60 108Q32 96 22 62Z"/><path class="b" d="M24 30l16 10-14 8zM96 30l-16 10 14 8z"/><path class="p" d="M22 62Q40 80 60 80Q80 80 98 62Q88 96 60 108Q32 96 22 62Z"/><path class="k x" d="M36 58q10-8 20 0q-10 7-20 0zM64 58q10-8 20 0q-10 7-20 0z"/><path class="z" d="M34 51l24 6M86 51l-24 6"/><circle class="k x" cx="60" cy="98" r="5"/><path class="z" d="M36 88H18M36 95l-16 4M84 88h18M84 95l16 4"/>`},
+{k:'egenskap',n:'Rädd',a:`<circle class="s" cx="60" cy="62" r="34"/><circle class="p" cx="47" cy="56" r="9"/><circle class="p" cx="73" cy="56" r="9"/><circle class="k x" cx="47" cy="57" r="2.8"/><circle class="k x" cx="73" cy="57" r="2.8"/><path class="z" d="M38 44L54 38M82 44L66 38"/><ellipse class="k" cx="60" cy="84" rx="7" ry="8"/><path class="i" d="M98 36q6 10 0 14q-6-4 0-14z"/><path class="z" d="M14 50l-6 4 6 4M106 50l6 4-6 4"/>`},
+{k:'egenskap',n:'Girig',a:`<path class="a" d="M44 32Q60 40 76 32L80 18Q60 28 40 18Z"/><path class="a" d="M46 36C20 62 14 90 34 104Q60 116 86 104C106 90 100 62 74 36Z"/><path class="g" d="M44 32h32l-2 10H46z"/><circle class="g" cx="60" cy="80" r="15"/><circle class="z" cx="60" cy="80" r="9"/><path class="z" d="M60 72v16"/>${S(100,30,8)}${S(20,44,6)}`},
+{k:'egenskap',n:'Förtrollad',a:`<path class="z" stroke-width="10" d="${SP}"/><path class="z sa" stroke-width="5.5" d="${SP}"/>${S(22,24,9)}${S(100,94,8)}${S(98,28,6)}${S(22,96,6)}`},
+{k:'egenskap',n:'Sovande',a:`<path class="g" d="M60.5 20A40 40 0 1 0 98.54 70.72A32 32 0 1 1 60.5 20Z"/><path class="z" d="M27 68q6 6 12 0"/><path class="z" stroke-width="3" d="M80 28h14l-14 16h14M99 52h9l-9 11h9"/>${S(102,98,7)}${S(14,100,6)}${S(16,22,5)}`},
+{k:'egenskap',n:'Arg',a:`<path class="z" d="M26 28q-6-8 0-14M94 28q6-8 0-14"/><circle class="a" cx="60" cy="66" r="36"/><circle class="p" cx="46" cy="62" r="8"/><circle class="p" cx="74" cy="62" r="8"/><circle class="k x" cx="48" cy="64" r="3"/><circle class="k x" cx="72" cy="64" r="3"/><path class="k" d="M32 44l26 12-3 6-26-10zM88 44L62 56l3 6 26-10z"/><path class="z" stroke-width="4" d="M44 92q16-14 32 0"/>`},
+
+/* ---------- HÄNDELSER ---------- */
+{k:'handelse',n:'Storm',a:`<path class="g" d="M64 60L46 90H58L52 112L78 80H64L72 60Z"/><path class="t" d="M32 76a16 16 0 0 1 2-32a22 22 0 0 1 42-6a20 20 0 0 1 10 38z"/><path class="z" d="M26 88l-4 10M38 96l-4 10M88 88l-4 10M100 80l-4 10"/>`},
+{k:'handelse',n:'Går vilse',a:`<path class="z" d="M30 110h60"/><rect class="w" x="56" y="22" width="8" height="88"/><path class="a" d="M64 28h34l10 8-10 8H64z"/><path class="g" d="M56 54H24L12 62L24 70H56Z"/><path class="p" d="M64 76h26l8 7-8 7H64z"/><text class="qm" x="60" y="18" text-anchor="middle">?</text>`},
+{k:'handelse',n:'Maskeradbal',a:`<path class="g" d="M98 44Q106 22 114 10Q114 34 106 52Z"/><path class="a" d="M12 54Q38 36 60 48Q82 36 108 54Q106 84 82 80Q68 78 60 68Q52 78 38 80Q14 84 12 54Z"/><ellipse class="k" cx="38" cy="60" rx="11" ry="6.5"/><ellipse class="k" cx="82" cy="60" rx="11" ry="6.5"/><path class="z hl" d="M22 52Q38 42 52 52M98 52Q82 42 68 52"/>${S(20,100,8)}${S(100,98,6)}${S(60,24,6)}`},
+{k:'handelse',n:'Förvandling',a:`<path class="a" d="M60 58C44 20 12 22 14 48 16 70 40 70 56 66z"/><path class="a" d="M60 58C76 20 108 22 106 48 104 70 80 70 64 66z"/><path class="b" d="M58 68C40 70 28 90 38 100 48 108 58 90 58 72z"/><path class="b" d="M62 68C80 70 92 90 82 100 72 108 62 90 62 72z"/><circle class="p" cx="34" cy="44" r="6"/><circle class="p" cx="86" cy="44" r="6"/><rect class="k" x="57" y="40" width="6" height="52" rx="3"/><path class="z" d="M58 42Q52 26 44 22M62 42Q68 26 76 22"/>`},
+{k:'handelse',n:'Strid',a:`<g transform="rotate(45 60 60)">${sword()}</g><g transform="rotate(-45 60 60)">${sword()}</g>${S(60,22,8)}`},
+{k:'handelse',n:'Stöld',a:`<path class="n" d="M22 112c0-26 14-38 38-38s38 12 38 38z"/><path class="z" d="M34 92h52M30 102h60"/><circle class="s" cx="60" cy="58" r="22"/><path class="k" d="M37 46Q36 20 60 18Q84 20 83 46Q72 36 60 36Q48 36 37 46Z"/><rect class="k" x="38" y="48" width="44" height="14" rx="6"/><ellipse class="p x" cx="50" cy="55" rx="5" ry="3.5"/><ellipse class="p x" cx="70" cy="55" rx="5" ry="3.5"/><path class="z" d="M52 72q8 4 16 0"/>`},
+{k:'handelse',n:'Hemlighet avslöjas',a:`<path class="p" d="M8 62Q60 10 112 62Q60 114 8 62Z"/><circle class="a" cx="60" cy="62" r="22"/><circle class="k x" cx="60" cy="62" r="10"/><circle class="p x" cx="53" cy="55" r="4"/><path class="z" d="M60 16V6M30 30l-6-6M90 30l6-6"/>`},
+
+/* ---------- LYCKLIGA SLUT ---------- */
+{k:'slut',n:'Bröllop',a:`<path class="a" d="M60 52C60 52 36 36 38 24C40 14 54 14 60 26C66 14 80 14 82 24C84 36 60 52 60 52Z"/>${ring(46,82,24,15)}${ring(74,82,24,15)}`},
+{k:'slut',n:'Förbannelsen bryts',a:`<g transform="translate(-6 0) rotate(-14 34 60)">${link()}</g><g transform="translate(56 0) rotate(14 34 60)">${link()}</g>${S(59,60,11)}<path class="z" d="M58 38l-4-8M62 82l4 8"/>`},
+{k:'slut',n:'Fred i riket',a:`<circle class="g" cx="60" cy="74" r="28"/><path class="z" d="M60 28V14M28 40l-8-8M92 40l8-8M14 74H4M106 74h10"/><path class="f" d="M0 84Q30 70 60 84T120 84V120H0Z"/><path class="n" d="M46 98V78h6v-5h4v5h8v-5h4v5h6v20z"/>`},
+{k:'slut',n:'Hemma igen',a:`<rect class="t" x="72" y="28" width="10" height="20"/><rect class="p" x="28" y="58" width="64" height="46"/><path class="a" d="M20 60L60 22L100 60Z"/><path class="p" d="M60 52C60 52 50 46 51 41C52 36 58 36 60 40C62 36 68 36 69 41C70 46 60 52 60 52Z"/><path class="w" d="M52 104V84q8-10 16 0v20z"/><rect class="g" x="34" y="68" width="12" height="12"/><rect class="g" x="74" y="68" width="12" height="12"/><path class="z" d="M52 104L40 118M68 104L80 118"/>`},
+{k:'slut',n:'Skatten delas',a:`${[104,95,86,77,68].map(y=>coin(34,y)).join('')}${[104,95,86].map(y=>coin(86,y)).join('')}${S(60,46,10)}${S(86,60,6)}${S(34,48,6)}`}
+];
+
+const KAT=Object.fromEntries(BASE.map(c=>[c.n,c.k]));
+const ART=Object.fromEntries(BASE.map(c=>[c.n,c.a]));
+const CHIPKEYS=['alla','jag','sit'];
+
+/* Engelska kortnamn. Svenska namnet är nyckeln till bilden. */
+const NAMES_EN={'Kung':'King','Prinsessa':'Princess','Riddare':'Knight','Häxa':'Witch','Trollkarl':'Wizard','Tomte':'Gnome','Troll':'Troll','Drake':'Dragon','Varg':'Wolf','Älva':'Fairy',
+'Svärd':'Sword','Magisk ring':'Magic ring','Trollstav':'Magic wand','Nyckel':'Key','Förgiftat äpple':'Poisoned apple','Spegel':'Mirror','Skattkista':'Treasure chest','Trolldryck':'Potion',
+'Slott':'Castle','Mörk skog':'Dark forest','Grotta':'Cave','Bergstopp':'Mountain top','Högt torn':'Tall tower','Sjö':'Lake','Stuga i skogen':'Cabin in the woods','Gammal bro':'Old bridge',
+'Modig':'Brave','Listig':'Cunning','Rädd':'Afraid','Girig':'Greedy','Förtrollad':'Enchanted','Sovande':'Sleeping','Arg':'Angry',
+'Storm':'Storm','Går vilse':'Lost','Maskeradbal':'Masquerade','Förvandling':'Transformation','Strid':'Battle','Stöld':'Theft','Hemlighet avslöjas':'Secret revealed',
+'Bröllop':'Wedding','Förbannelsen bryts':'Curse broken','Fred i riket':'Peace in the realm','Hemma igen':'Home again','Skatten delas':'Treasure shared'};
+
+/* Varje bild har två frågor: [bild, typ, svenska, engelska]. Samma bild återkommer med olika frågor. */
+const Q=[
+['Kung','jag','Beskriv dig som kung eller drottning: vad styr du över, och hur?','Describe yourself as a king or queen: what do you rule over, and how?'],
+['Kung','sit','Berätta om en gång då du fick leda andra och det gick bra.','Tell about a time you got to lead others and it went well.'],
+['Prinsessa','jag','Beskriv dig som prinsessa eller prins: vad förväntar andra av dig, och vad vill du själv?','Describe yourself as a princess or prince: what do others expect of you, and what do you want yourself?'],
+['Prinsessa','sit','Berätta om en gång då du gick emot andras förväntningar och det blev bra.','Tell about a time you went against expectations and it turned out well.'],
+['Riddare','jag','Beskriv dig som riddare: vad är du beredd att försvara?','Describe yourself as a knight: what are you ready to defend?'],
+['Riddare','sit','Berätta om en gång då du ställde upp för någon som behövde hjälp.','Tell about a time you stood up for someone who needed help.'],
+['Häxa','jag','Beskriv dig som häxa: vilken hemlig kunskap har du som få känner till?','Describe yourself as a witch: what secret knowledge do you have that few people know about?'],
+['Häxa','sit','Berätta om en gång då du löste något på ett sätt ingen väntat sig.','Tell about a time you solved something in a way nobody expected.'],
+['Trollkarl','jag','Beskriv dig som trollkarl: vad får du att se enkelt ut som andra tycker är svårt?','Describe yourself as a wizard: what do you make look easy that others find hard?'],
+['Trollkarl','sit','Berätta om en gång då du förklarade något svårt så att alla förstod.','Tell about a time you explained something difficult so that everyone understood.'],
+['Tomte','jag','Beskriv dig som tomte: vad gör du för andra utan att någon ber om det?','Describe yourself as a gnome: what do you do for others without anyone asking?'],
+['Tomte','sit','Berätta om en gång då du fixade något i det tysta.','Tell about a time you quietly fixed something.'],
+['Troll','jag','Beskriv dig som troll: vad är du envis med, och varför?','Describe yourself as a troll: what are you stubborn about, and why?'],
+['Troll','sit','Berätta om en gång då du stod på dig fast alla tyckte annorlunda.','Tell about a time you stood your ground even though everyone disagreed.'],
+['Drake','jag','Beskriv dig som drake: vad vaktar du över, och hur skyddar du det?','Describe yourself as a dragon: what do you guard, and how do you protect it?'],
+['Drake','sit','Berätta om en gång då du satte ner foten.','Tell about a time you put your foot down.'],
+['Varg','jag','Beskriv dig som varg: vilken roll tar du i en flock?','Describe yourself as a wolf: what role do you take in a pack?'],
+['Varg','sit','Berätta om en grupp där du verkligen hörde hemma.','Tell about a group where you truly belonged.'],
+['Älva','jag','Beskriv dig som älva: hur gör du andras dag lättare?','Describe yourself as a fairy: how do you make other people’s day easier?'],
+['Älva','sit','Berätta om en gång då en liten insats från dig gjorde stor skillnad.','Tell about a time a small effort from you made a big difference.'],
+
+['Svärd','jag','Beskriv dig som ett svärd: vad är du vass på?','Describe yourself as a sword: what are you sharp at?'],
+['Svärd','sit','Berätta om ett beslut som krävde mod att ta.','Tell about a decision that took courage.'],
+['Magisk ring','jag','Beskriv dig som en magisk ring: vad är du trogen mot, hur länge som helst?','Describe yourself as a magic ring: what are you loyal to, no matter how long it takes?'],
+['Magisk ring','sit','Berätta om ett löfte du höll fast det var jobbigt.','Tell about a promise you kept even though it was hard.'],
+['Trollstav','jag','Beskriv dig som en trollstav: vilken förvandling får du till stånd?','Describe yourself as a magic wand: what transformation do you bring about?'],
+['Trollstav','sit','Berätta om en idé du fick som förändrade något.','Tell about an idea you had that changed something.'],
+['Nyckel','jag','Beskriv dig som en nyckel: vilka dörrar öppnar du för andra?','Describe yourself as a key: what doors do you open for others?'],
+['Nyckel','sit','Berätta om en gång då du fick något som hade fastnat att lossna.','Tell about a time you got something that was stuck moving again.'],
+['Förgiftat äpple','jag','Beskriv dig som ett äpple med en baksida: vad är din svaga sida, och hur hanterar du den?','Describe yourself as an apple with a flip side: what is your weak spot, and how do you handle it?'],
+['Förgiftat äpple','sit','Berätta om ett misstag som du lärde dig något av.','Tell about a mistake you learned something from.'],
+['Spegel','jag','Beskriv dig som en spegel: vad säger andra att de ser hos dig?','Describe yourself as a mirror: what do others say they see in you?'],
+['Spegel','sit','Berätta om en gång då du fick en ny syn på dig själv.','Tell about a time you saw yourself in a new light.'],
+['Skattkista','jag','Beskriv dig som en skattkista: vad har du i dig som man inte ser utanpå?','Describe yourself as a treasure chest: what do you carry inside that you can’t see from the outside?'],
+['Skattkista','sit','Berätta om något värdefullt du har sparat, och varför.','Tell about something valuable you have kept, and why.'],
+['Trolldryck','jag','Beskriv dig som en trolldryck: vilka ingredienser består du av?','Describe yourself as a potion: which ingredients are you made of?'],
+['Trolldryck','sit','Berätta om en gång då du blandade olika saker till något nytt.','Tell about a time you mixed different things into something new.'],
+
+['Slott','jag','Beskriv dig som ett slott: vad är du byggd för att stå emot?','Describe yourself as a castle: what are you built to withstand?'],
+['Slott','sit','Berätta om en plats där du är i ditt esse.','Tell about a place where you are in your element.'],
+['Mörk skog','jag','Beskriv dig som en mörk skog: vad måste man våga för att lära känna dig?','Describe yourself as a dark forest: what must someone dare to get to know you?'],
+['Mörk skog','sit','Berätta om en plats som kändes läskig men som du tog dig igenom.','Tell about a place that felt scary but that you made it through.'],
+['Grotta','jag','Beskriv dig som en grotta: vad finns bakom ingången som få får se?','Describe yourself as a cave: what lies behind the entrance that few get to see?'],
+['Grotta','sit','Berätta om platsen dit du går för att få vara ifred.','Tell about the place you go to be left alone.'],
+['Bergstopp','jag','Beskriv dig som en bergstopp: vilket mål jobbar du dig mot?','Describe yourself as a mountain top: what goal are you working towards?'],
+['Bergstopp','sit','Berätta om det högsta eller vackraste ställe du har stått på.','Tell about the highest or most beautiful place you have stood.'],
+['Högt torn','jag','Beskriv dig som ett högt torn: vad ser du som andra inte ser?','Describe yourself as a tall tower: what do you see that others don’t?'],
+['Högt torn','sit','Berätta om en plats där du fick nytt perspektiv på något.','Tell about a place where you gained a new perspective on something.'],
+['Sjö','jag','Beskriv dig som en sjö: hur ser du ut i storm och i stiltje?','Describe yourself as a lake: what do you look like in a storm and when it’s calm?'],
+['Sjö','sit','Berätta om en plats där du får lugn.','Tell about a place where you find calm.'],
+['Stuga i skogen','jag','Beskriv dig som en stuga i skogen: vem är välkommen hos dig?','Describe yourself as a cabin in the woods: who is welcome at your place?'],
+['Stuga i skogen','sit','Berätta om din drömstuga. Vem bjuder du dit?','Tell about your dream cabin. Who do you invite?'],
+['Gammal bro','jag','Beskriv dig som en gammal bro: vilka kopplar du ihop?','Describe yourself as an old bridge: who do you connect?'],
+['Gammal bro','sit','Berätta om ett ställe du alltid kommer tillbaka till.','Tell about a place you always come back to.'],
+
+['Modig','jag','Beskriv dig som modig: vad vågar du som andra drar sig för?','Describe yourself as brave: what do you dare to do that others shy away from?'],
+['Modig','sit','Berätta om en gång då du var modig.','Tell about a time you were brave.'],
+['Listig','jag','Beskriv dig som listig: hur hittar du genvägar som andra missar?','Describe yourself as cunning: how do you find shortcuts that others miss?'],
+['Listig','sit','Berätta om en gång då du löste något med list i stället för kraft.','Tell about a time you solved something with cleverness instead of force.'],
+['Rädd','jag','Beskriv dig som rädd: vad gör du fast det känns obehagligt?','Describe yourself as afraid: what do you do even when it feels uncomfortable?'],
+['Rädd','sit','Berätta om en gång då du var rädd men gjorde det ändå.','Tell about a time you were afraid but did it anyway.'],
+['Girig','jag','Beskriv dig som girig: vad vill du ha mer av i ditt arbete?','Describe yourself as greedy: what do you want more of in your work?'],
+['Girig','sit','Berätta om något du inte vill dela med dig av.','Tell about something you don’t want to share.'],
+['Förtrollad','jag','Beskriv dig som förtrollad: vad får dig att glömma tid och rum?','Describe yourself as enchanted: what makes you lose track of time?'],
+['Förtrollad','sit','Berätta om en gång då du blev helt uppslukad av något.','Tell about a time you became completely absorbed in something.'],
+['Sovande','jag','Beskriv dig som sovande: hur laddar du om?','Describe yourself as sleeping: how do you recharge?'],
+['Sovande','sit','Berätta om en dag då du gjorde absolut ingenting och njöt.','Tell about a day you did absolutely nothing and enjoyed it.'],
+['Arg','jag','Beskriv dig som arg: vad kan göra dig riktigt upprörd, och vad gör du då?','Describe yourself as angry: what can really upset you, and what do you do then?'],
+['Arg','sit','Berätta om en gång då du var arg men höll dig lugn.','Tell about a time you were angry but stayed calm.'],
+
+['Storm','jag','Beskriv dig som en storm: hur ser det ut när du går på högvarv?','Describe yourself as a storm: what does it look like when you’re running at full speed?'],
+['Storm','sit','Berätta om en gång då allt gick fel men det ordnade sig.','Tell about a time everything went wrong but it worked out.'],
+['Går vilse','jag','Beskriv dig som någon vid en vägkorsning: vart är du på väg härnäst?','Describe yourself as someone at a crossroads: where are you headed next?'],
+['Går vilse','sit','Berätta om en gång då du gick vilse, på riktigt eller i livet.','Tell about a time you got lost, literally or in life.'],
+['Maskeradbal','jag','Beskriv dig som en maskerad: vilken sida av dig visar du inte direkt?','Describe yourself as a masquerade: which side of you don’t you show right away?'],
+['Maskeradbal','sit','Berätta om ett sammanhang där du kunde vara precis som du är.','Tell about a setting where you could be exactly who you are.'],
+['Förvandling','jag','Beskriv dig som en förvandling: vad har du utvecklats från, och till?','Describe yourself as a transformation: what have you grown from, and into?'],
+['Förvandling','sit','Berätta om en händelse som förändrade dig.','Tell about an event that changed you.'],
+['Strid','jag','Beskriv dig mitt i en strid: vad står du upp för, även när det blåser?','Describe yourself in the middle of a battle: what do you stand up for, even when the wind is against you?'],
+['Strid','sit','Berätta om en gång då du stod upp för något eller någon.','Tell about a time you stood up for something or someone.'],
+['Stöld','jag','Beskriv dig som en tjuv i natten: vilken idé har du lånat och gjort till din?','Describe yourself as a thief in the night: which idea have you borrowed and made your own?'],
+['Stöld','sit','Berätta om en gång då du lärde dig något genom att titta på någon annan.','Tell about a time you learned something by watching someone else.'],
+['Hemlighet avslöjas','jag','Beskriv dig som en avslöjad hemlighet: vad blir folk överraskade av hos dig?','Describe yourself as a revealed secret: what surprises people about you?'],
+['Hemlighet avslöjas','sit','Berätta om en gång då du blev riktigt överraskad.','Tell about a time you were really surprised.'],
+
+['Bröllop','jag','Beskriv dig som ett bröllop: hur får du människor att hålla ihop?','Describe yourself as a wedding: how do you bring people together?'],
+['Bröllop','sit','Berätta om det bästa firande du har varit på.','Tell about the best celebration you have been to.'],
+['Förbannelsen bryts','jag','Beskriv dig som någon som bryter en förbannelse: vilken ovana har du gjort dig av med?','Describe yourself as someone who breaks a curse: which bad habit have you got rid of?'],
+['Förbannelsen bryts','sit','Berätta om en vana eller ett mönster du lyckades bryta.','Tell about a habit or pattern you managed to break.'],
+['Fred i riket','jag','Beskriv dig som fred i riket: hur skapar du lugn i en grupp?','Describe yourself as peace in the realm: how do you create calm in a group?'],
+['Fred i riket','sit','Berätta om ett ögonblick då allt kändes lugnt och bra.','Tell about a moment when everything felt calm and good.'],
+['Hemma igen','jag','Beskriv dig som någon som kommit hem: hur ser en bra dag ut för dig?','Describe yourself as someone who has come home: what does a good day look like for you?'],
+['Hemma igen','sit','Berätta om när det var som bäst att komma hem.','Tell about when it felt best to come home.'],
+['Skatten delas','jag','Beskriv dig som någon som delar skatten: vad delar du gärna med dig av?','Describe yourself as someone who shares the treasure: what do you gladly share?'],
+['Skatten delas','sit','Berätta om en gång då du delade något och det blev bättre.','Tell about a time you shared something and it got better.']
+];
+const C=Q.map(([n,m,q,qe])=>({n,m,q,qe,k:KAT[n],a:ART[n]}));
+
+/* Språktabell. Korten delas ut på samma sätt oavsett språk, så spelare kan blanda språk. */
+const I18N={
+sv:{
+  modes:{jag:'Beskriv dig',sit:'Berätta en situation'},
+  chips:{alla:'Alla',jag:'Beskriv dig',sit:'Situation'},
+  stage:'Dra ett kort',timeLabel:'Pitch-tid',off:'Av',code:'Spelkod',codePh:'gemensamt ord',players:'Spelare',pos:'Din position',perDraw:'Kort per drag',which:'Vilka kort ska dras?',
+  shuffle:'Blanda om högen',full:'Helskärm',exit:'Stäng helskärm',rules:'Regler',close:'Stäng',helpTitle:'Så spelar ni',back:'Tillbaka till spelet',
+  other:'EN',switchTo:'Switch to English',
+  backTitle:'Hissen går…',backSub:'Tryck för att dra',
+  d1:'Dra kort',d2:'Dra två kort',n1:'Dra nästa kort',n2:'Dra två nya kort',out:'Korten är slut',over:'Spelet är slut',ask:'Skriv ett ord först',
+  left:(a,b)=>`${a} av ${b} kvar`,round:n=>`Omgång ${n}`,
+  tstart:n=>`Starta ${n} s`,tstop:'Stoppa',tup:'Tiden är slut',
+  endT:'Korten är slut',endP:'Vill ni blanda om högen och spela vidare?',reshuffle:'Blanda om',finish:'Avsluta',endLive:'Korten är slut. Vill ni blanda om?',
+  overT:'Spelet är slut',overP:'Tack för alla pitchar!',newGame:'Nytt spel',
+  askT:'Välj ett ord',askP:'Alla spelare skriver samma ord. Då delas korten olika varje spel.',askPh:'t.ex. pizza',askAria:'Spelord',start:'Starta',
+  shuffled:'Högen är blandad',
+  help:`<p>Elevator pitch tränar dig i att presentera dig själv kort och tydligt. Tänk dig en hissfärd: du har en halv minut på dig. Varje kort har en bild och en fråga. Bilden är din ledtråd.</p>
+    <h3>Så går det till</h3>
+    <ol>
+      <li>Någon drar ett kort och läser frågan högt.</li>
+      <li>Välj väg: <b>beskriv dig själv</b> enligt bilden, eller <b>berätta en situation</b> som matchar bilden. Frågan på kortet är ett förslag. Passar den andra vägen bättre går den också bra.</li>
+      <li>Tryck på tidknappen om ni vill ha tid. Pitchen ska vara klar när tiden är slut.</li>
+      <li>De andra lyssnar och säger vad de minns av pitchen. Sedan är det nästa persons tur.</li>
+    </ol>
+    <h3>Bygg pitchen</h3>
+    <ul>
+      <li><b>Kärnan</b>: en mening om vem du är enligt bilden.</li>
+      <li><b>Beviset</b>: ett kort exempel eller en situation där det syntes.</li>
+      <li><b>Avslutet</b>: vad du vill att lyssnaren tar med sig.</li>
+    </ul>
+    <h3>Korttyper</h3>
+    <ul>
+      <li><b>Beskriv dig</b>: du presenterar dig själv som det bilden visar.</li>
+      <li><b>Situation</b>: du berättar något som hänt dig och som passar bilden.</li>
+    </ul>
+    <p>Samma bild kommer tillbaka med olika frågor, så du kan pitcha dig själv som riddare ena gången och berätta om en riddar-situation nästa gång. Knapparna under dra-knappen väljer vilken sorts fråga som dras.</p>
+    <p><b>Att passa är okej.</b> Passar frågan inte, dra ett nytt kort. Ställ in <b>Kort per drag</b> på 2 om du vill välja bild själv.</p>
+    <h3>Flera telefoner</h3>
+    <ol>
+      <li>Välj antal <b>Spelare</b>. Är ni fler än en frågar appen efter ett gemensamt ord.</li>
+      <li>Alla skriver <b>samma ord</b>. Stora och små bokstäver spelar ingen roll. Ordet avgör hur korten delas upp mellan er.</li>
+      <li>Var och en väljer en egen <b>position</b>, från 1 till antalet spelare. Väljer två samma position får de samma kort.</li>
+    </ol>
+    <p>Genväg: skicka en färdig länk till varje spelare. Lägg till sist i länken, till exempel <code>#kod-pizza-spelare-3-plats-2</code>. Lägg till <code>-tva-kort</code> för två kort per drag och <code>-eng</code> för engelska. Språket påverkar inte hur korten delas, så ni kan spela på olika språk.</p>
+    <p>Korten dras utan upprepning. När din hög är slut frågar appen om du vill blanda om. Varje blandning startar en ny <b>omgång</b> med en ny uppdelning, så alla bör blanda om vid samma tillfälle. <b>Helskärm</b> döljer inställningarna så att bara kortet och tidknappen syns.</p>`
+},
+en:{
+  modes:{jag:'Describe yourself',sit:'Tell a situation'},
+  chips:{alla:'All',jag:'Describe yourself',sit:'Situation'},
+  stage:'Draw a card',timeLabel:'Pitch time',off:'Off',code:'Game code',codePh:'shared word',players:'Players',pos:'Your position',perDraw:'Cards per draw',which:'Which cards to draw?',
+  shuffle:'Shuffle the deck',full:'Fullscreen',exit:'Exit fullscreen',rules:'Rules',close:'Close',helpTitle:'How to play',back:'Back to the game',
+  other:'SV',switchTo:'Byt till svenska',
+  backTitle:'Going up…',backSub:'Tap to draw',
+  d1:'Draw a card',d2:'Draw two cards',n1:'Draw next card',n2:'Draw two new cards',out:'Out of cards',over:'Game over',ask:'Type a word first',
+  left:(a,b)=>`${a} of ${b} left`,round:n=>`Round ${n}`,
+  tstart:n=>`Start ${n} s`,tstop:'Stop',tup:'Time’s up',
+  endT:'Out of cards',endP:'Shuffle the deck and keep playing?',reshuffle:'Shuffle',finish:'Finish',endLive:'Out of cards. Shuffle?',
+  overT:'Game over',overP:'Thanks for all the pitches!',newGame:'New game',
+  askT:'Pick a word',askP:'All players type the same word. It decides how the cards are split in each game.',askPh:'e.g. pizza',askAria:'Game word',start:'Start',
+  shuffled:'Deck shuffled',
+  help:`<p>Elevator pitch trains you to introduce yourself briefly and clearly. Imagine a ride in an elevator: you have half a minute. Each card has a picture and a question. The picture is your cue.</p>
+    <h3>How it works</h3>
+    <ol>
+      <li>Someone draws a card and reads the question aloud.</li>
+      <li>Pick your route: <b>describe yourself</b> as the picture, or <b>tell a situation</b> that matches the picture. The question on the card is a suggestion. If the other route fits better, take it.</li>
+      <li>Press the timer button if you want a time limit. Wrap up the pitch when time runs out.</li>
+      <li>The others listen and say what they remember from the pitch. Then it is the next person’s turn.</li>
+    </ol>
+    <h3>Build the pitch</h3>
+    <ul>
+      <li><b>The core</b>: one sentence about who you are, according to the picture.</li>
+      <li><b>The proof</b>: a short example or situation where it showed.</li>
+      <li><b>The ending</b>: what you want the listener to take away.</li>
+    </ul>
+    <h3>Card types</h3>
+    <ul>
+      <li><b>Describe yourself</b>: you present yourself as what the picture shows.</li>
+      <li><b>Situation</b>: you tell something that happened to you and that fits the picture.</li>
+    </ul>
+    <p>The same picture comes back with different questions, so you can pitch yourself as a knight one time and tell a knight-style situation the next. The buttons under the draw button choose which kind of question is drawn.</p>
+    <p><b>Passing is fine.</b> If the question doesn’t fit, draw a new card. Set <b>Cards per draw</b> to 2 if you want to choose the picture yourself.</p>
+    <h3>Several phones</h3>
+    <ol>
+      <li>Choose the number of <b>Players</b>. With more than one, the app asks for a shared word.</li>
+      <li>Everyone types the <b>same word</b>. Upper and lower case don’t matter. The word decides how the cards are split between you.</li>
+      <li>Each player picks their own <b>position</b>, from 1 up to the number of players. If two pick the same position, they get the same cards.</li>
+    </ol>
+    <p>Shortcut: send a ready-made link to each player. Add this to the end of the link, for example <code>#kod-pizza-spelare-3-plats-2</code> (kod = code, spelare = players, plats = position). Add <code>-tva-kort</code> for two cards per draw and <code>-eng</code> for English. The language doesn’t affect how the cards are split, so you can play in different languages.</p>
+    <p>Cards are drawn without repeats. When your pile runs out, the app asks if you want to shuffle. Each shuffle starts a new <b>round</b> with a new split, so everyone should shuffle at the same time. <b>Fullscreen</b> hides the settings so that only the card and the timer button show.</p>`
+}};
+
+const $=id=>document.getElementById(id);
+const L=()=>I18N[st.lang];
+const cn=c=>st.lang==='en'?NAMES_EN[c.n]:c.n;
+const cq=c=>st.lang==='en'?c.qe:c.q;
+const st={filter:'alla',used:new Set(),shown:[],busy:false,drawn:false,n:1,pos:1,np:1,code:'',round:0,end:false,over:false,ask:false,lang:'sv'};
+let PM=[];
+const PILE=i=>PM[i];
+function rng(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19}let a=h;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function build(){
+  const r=rng(st.code+'_round'+String(st.round).padStart(2,'0')),order=[];
+  ['jag','sit'].forEach(m=>{
+    const ids=C.map((c,i)=>i).filter(i=>C[i].m===m);
+    for(let i=ids.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]}
+    order.push(...ids);
+  });
+  PM=[];order.forEach((id,n)=>{PM[id]=n%st.np});
+}
+const clean=v=>v.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
+const pool=()=>C.map((c,i)=>i).filter(i=>PILE(i)===st.pos-1&&(st.filter==='alla'||C[i].m===st.filter));
+const avail=()=>pool().filter(i=>!st.used.has(i));
+const count=note=>{$('count').textContent=note||L().left(avail().length,pool().length)};
+
+function backSVG(){
+  const T=L();
+  let petals='',dots='';
+  for(let i=0;i<8;i++) petals+=`<ellipse class="ln" cx="0" cy="-40" rx="13" ry="30" transform="rotate(${i*45})"/>`;
+  for(let i=0;i<24;i++) dots+=`<circle class="fl" cx="0" cy="-92" r="2.2" transform="rotate(${i*15})"/>`;
+  const star=(x,y)=>`<path class="fl" transform="translate(${x} ${y})" d="M0-10Q2-2 10 0Q2 2 0 10Q-2 2-10 0Q-2-2 0-10Z"/>`;
+  return `<svg viewBox="0 0 250 350" aria-hidden="true"><rect class="ln" x="12" y="12" width="226" height="326" rx="12"/><rect class="ln" x="20" y="20" width="210" height="310" rx="8"/><g transform="translate(125 160)">${petals}<circle class="ln" r="100"/>${dots}<circle class="fl" r="12"/></g>${star(44,44)}${star(206,44)}${star(44,306)}${star(206,306)}<text class="bt" x="125" y="300">${T.backTitle}</text><text class="bs" x="125" y="322">${T.backSub}</text></svg>`;
+}
+function setHand(n){
+  const h=$('hand');st.end=false;st.over=false;st.ask=false;st.shown=[];h.dataset.n=n;h.innerHTML='';
+  for(let i=0;i<n;i++){const d=document.createElement('div');d.className='card back';d.innerHTML=backSVG();h.appendChild(d)}
+}
+const paintBack=()=>setHand(st.n);
+function paintFront(c,card){
+  c.className='card';c.dataset.cat=card.k;
+  c.innerHTML=`<div class="label"><i></i>${L().modes[card.m]}</div><div class="art"><svg viewBox="0 0 120 120" aria-hidden="true">${card.a}</svg></div><div class="name">${cn(card)}</div><div class="q">${cq(card)}</div>`;
+}
+const label=()=>{const T=L();if(st.over)return T.over;if(st.ask)return T.ask;if(st.drawn&&avail().length===0)return T.out;const two=st.n===2;return st.drawn?(two?T.n2:T.n1):(two?T.d2:T.d1)};
+async function flip(el,card,delay,calm){
+  if(calm){paintFront(el,card);return}
+  const a1=el.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(90deg)'}],{duration:130,delay,easing:'ease-in',fill:'both'});
+  await a1.finished;paintFront(el,card);a1.cancel();
+  await el.animate([{transform:'rotateY(-90deg)'},{transform:'rotateY(0deg)'}],{duration:220,easing:'ease-out'}).finished;
+}
+function panel(inner){$('hand').innerHTML=`<div class="card end">${inner}</div>`}
+function showEnd(){
+  const T=L();st.end=true;tStop();
+  panel(`<div class="endt">${T.endT}</div><p>${T.endP}</p><div class="endb"><button type="button" class="draw" data-act="reshuffle">${T.reshuffle}</button><button type="button" class="chip" data-act="over">${T.finish}</button></div>`);
+  $('draw').textContent=label();$('live').textContent=T.endLive;
+}
+function showOver(){
+  const T=L();st.end=false;st.over=true;tStop();
+  panel(`<div class="endt">${T.overT}</div><p>${T.overP}</p><div class="endb"><button type="button" class="draw" data-act="reshuffle">${T.newGame}</button></div>`);
+  $('draw').textContent=label();$('live').textContent=T.overT;
+}
+function showAsk(){
+  const T=L();st.ask=true;
+  panel(`<div class="endt">${T.askT}</div><p>${T.askP}</p><input id="startcode" class="code" type="text" maxlength="16" placeholder="${T.askPh}" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="${T.askAria}"><div class="endb"><button type="button" class="draw" data-act="start">${T.start}</button></div>`);
+  $('draw').textContent=label();
+  $('startcode').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('hand').querySelector('[data-act="start"]').click()}});
+}
+async function draw(){
+  if(st.ask){const i=$('startcode');if(i)i.focus();return}
+  if(st.busy||st.end||st.over)return;
+  if(!avail().length){showEnd();return}
+  st.busy=true;tStop();
+  const picked=[];
+  for(let j=0;j<st.n;j++){
+    let a=avail();if(!a.length)break;
+    if(j>0){const other=a.filter(i=>C[i].n!==C[picked[0]].n);if(other.length)a=other}
+    const i=a[Math.floor(Math.random()*a.length)];st.used.add(i);picked.push(i);
+  }
+  const hand=$('hand');
+  if(hand.children.length!==st.n||hand.querySelector('.end'))setHand(st.n);
+  for(let j=picked.length;j<st.n;j++){const el=hand.children[j];el.className='card back';el.removeAttribute('data-cat');el.innerHTML=backSVG()}
+  const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  await Promise.all(picked.map((i,j)=>flip(hand.children[j],C[i],j*110,calm)));
+  st.shown=picked;
+  $('live').textContent=picked.map(i=>`${cn(C[i])}. ${cq(C[i])}`).join('. ');
+  st.drawn=true;$('draw').textContent=label();count();st.busy=false;
+}
+function reshuffle(){
+  if(st.busy)return;
+  if(st.np>1)st.round=(st.round+1)%100;
+  tStop();build();st.used.clear();st.drawn=false;paintBack();syncPlayersUI();
+  $('draw').textContent=label();count();hashSync();$('live').textContent=L().shuffled;
+}
+function setMode(n){
+  if(st.busy)return;st.n=n;st.drawn=false;paintBack();
+  document.querySelectorAll('.segb').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===n));
+  $('draw').textContent=label();count();
+  hashSync();
+}
+function hashSync(){
+  const h=[st.code?'kod-'+st.code:'',st.np>1&&st.round?'omgang-'+st.round:'',st.np>1?'spelare-'+st.np:'',st.np>1?'plats-'+st.pos:'',st.n===2?'tva-kort':'',st.lang==='en'?'eng':''].filter(Boolean).join('-');
+  try{location.hash=h}catch(e){}
+}
+function syncPlayersUI(){
+  document.querySelectorAll('.npb').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.np===st.np));
+  document.querySelectorAll('.posb').forEach(b=>{const k=+b.dataset.pos;b.hidden=k>st.np;b.setAttribute('aria-pressed',k===st.pos)});
+  $('posrow').hidden=st.np<2;$('coderow').hidden=st.np<2;$('rnd').textContent=L().round(st.round+1);
+}
+function restart(){tStop();build();st.used.clear();st.drawn=false;paintBack();syncPlayersUI();$('draw').textContent=label();count();hashSync()}
+function setCode(v){if(st.busy)return;st.code=clean(v);st.round=0;$('code').value=st.code;restart();if(st.np>1&&!st.code)showAsk()}
+function setPos(k){if(st.busy)return;st.pos=k;restart()}
+function setPlayers(np){if(st.busy)return;st.np=np;if(st.pos>np)st.pos=1;restart();if(np>1&&!st.code)showAsk()}
+
+/* Pitch-tid */
+let tsec=30,tleft=0,tint=null;
+const tFmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+function tStop(){
+  clearInterval(tint);tint=null;
+  const b=$('timer');b.classList.remove('up');b.hidden=!tsec;b.textContent=L().tstart(tsec);
+}
+function tSet(s){
+  tsec=s;
+  document.querySelectorAll('.tmb').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.t===s));
+  tStop();
+}
+function tStart(){
+  if(tint){tStop();return}
+  const T=L();tleft=tsec;$('timer').textContent=tFmt(tleft)+' · '+T.tstop;
+  tint=setInterval(()=>{
+    tleft--;
+    if(tleft<=0){
+      clearInterval(tint);tint=null;
+      $('timer').classList.add('up');$('timer').textContent=L().tup;
+      $('live').textContent=L().tup;
+      try{navigator.vibrate&&navigator.vibrate(250)}catch(e){}
+    }else $('timer').textContent=tFmt(tleft)+' · '+L().tstop;
+  },1000);
+}
+document.querySelectorAll('.tmb').forEach(b=>b.addEventListener('click',()=>tSet(+b.dataset.t)));
+$('timer').addEventListener('click',tStart);
+
+CHIPKEYS.forEach(key=>{
+  const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.key=key;b.setAttribute('aria-pressed',key==='alla');
+  b.addEventListener('click',()=>{st.filter=key;document.querySelectorAll('#chips .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));count()});
+  $('chips').appendChild(b);
+});
+
+/* Språk: all text sätts härifrån. Bilder och kortfördelning är oberoende av språket. */
+function applyLang(){
+  const T=L();
+  try{document.documentElement.lang=st.lang}catch(e){}
+  $('stage').setAttribute('aria-label',T.stage);
+  $('tmlabel').textContent=T.timeLabel;$('tmgroup').setAttribute('aria-label',T.timeLabel);$('tmoff').textContent=T.off;
+  $('codelabel').textContent=T.code;$('code').placeholder=T.codePh;
+  $('nplabel').textContent=T.players;$('npgroup').setAttribute('aria-label',T.players);
+  $('poslabel').textContent=T.pos;$('posrow').setAttribute('aria-label',T.pos);
+  $('nlabel').textContent=T.perDraw;$('ngroup').setAttribute('aria-label',T.perDraw);
+  $('chips').setAttribute('aria-label',T.which);
+  document.querySelectorAll('#chips .chip').forEach(b=>{b.textContent=T.chips[b.dataset.key]});
+  $('shuffle').textContent=T.shuffle;$('full').textContent=T.full;$('exit').textContent=T.exit;
+  $('helph').textContent=T.helpTitle;$('helpbody').innerHTML=T.help;$('helpclose').textContent=T.back;
+  $('helpbtn').textContent=document.body.classList.contains('help')?T.close:T.rules;
+  $('langbtn').textContent=T.other;$('langbtn').setAttribute('aria-label',T.switchTo);$('langbtn').setAttribute('lang',st.lang==='en'?'sv':'en');
+  tStop();syncPlayersUI();
+  const hand=$('hand');
+  if(st.over)showOver();
+  else if(st.end)showEnd();
+  else if(st.ask){const v=$('startcode')?$('startcode').value:'';showAsk();$('startcode').value=v}
+  else if(st.drawn&&st.shown.length){for(let j=0;j<hand.children.length;j++){const el=hand.children[j];if(j<st.shown.length)paintFront(el,C[st.shown[j]]);else el.innerHTML=backSVG()}}
+  else paintBack();
+  $('draw').textContent=label();count();hashSync();
+}
+function setLang(l){
+  if(st.busy)return;st.lang=l;
+  try{localStorage.setItem('pitch-lang',l)}catch(e){}
+  applyLang();
+}
+$('langbtn').addEventListener('click',()=>setLang(st.lang==='en'?'sv':'en'));
+
+$('draw').addEventListener('click',draw);
+$('stage').addEventListener('click',e=>{if(e.target.closest('.end'))return;draw()});
+$('hand').addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const act=b.dataset.act;
+  if(act==='reshuffle')reshuffle();
+  else if(act==='over')showOver();
+  else if(act==='start'){const v=clean($('startcode').value);if(!v){$('startcode').focus();return}setCode(v)}
+});
+$('stage').addEventListener('keydown',e=>{if(e.target!==$('stage'))return;if(e.key==='Enter'||e.key===' '){e.preventDefault();draw()}});
+$('shuffle').addEventListener('click',reshuffle);
+function setHelp(on){
+  document.body.classList.toggle('help',on);$('help').hidden=!on;
+  $('helpbtn').setAttribute('aria-expanded',on);$('helpbtn').textContent=on?L().close:L().rules;
+  window.scrollTo(0,0);
+  if(on)$('helph').focus();else $('helpbtn').focus();
+}
+$('helpbtn').addEventListener('click',()=>setHelp(!document.body.classList.contains('help')));
+$('helpclose').addEventListener('click',()=>setHelp(false));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('help'))setHelp(false)});
+let wake=null;
+async function setFull(on){
+  document.body.classList.toggle('full',on);
+  $('full').setAttribute('aria-pressed',on);
+  if(on){
+    try{await document.documentElement.requestFullscreen()}catch(e){}
+    try{wake=await navigator.wakeLock.request('screen')}catch(e){wake=null}
+  }else{
+    try{if(document.fullscreenElement)await document.exitFullscreen()}catch(e){}
+    try{if(wake){await wake.release();wake=null}}catch(e){}
+  }
+}
+$('full').addEventListener('click',()=>setFull(true));
+$('exit').addEventListener('click',()=>setFull(false));
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&document.body.classList.contains('full'))setFull(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('full'))setFull(false)});
+document.addEventListener('visibilitychange',async()=>{if(document.visibilityState==='visible'&&document.body.classList.contains('full')&&!wake){try{wake=await navigator.wakeLock.request('screen')}catch(e){}}});
+document.querySelectorAll('.segb').forEach(b=>b.addEventListener('click',()=>setMode(+b.dataset.n)));
+const hh=location.hash;
+if(/tva-kort/.test(hh))st.n=2;
+const cm=hh.match(/kod-([a-z0-9]+)/);if(cm)st.code=cm[1];
+const rm=hh.match(/omgang-(\d{1,2})/);if(rm)st.round=+rm[1];
+const nm=hh.match(/spelare-([2-4])/);if(nm)st.np=+nm[1];
+const pm=hh.match(/plats-([1-4])/);if(pm&&+pm[1]<=st.np)st.pos=+pm[1];
+/* Språkval: länken först, sedan sparat val, sedan webbläsarens språk */
+let saved=null;try{saved=localStorage.getItem('pitch-lang')}catch(e){}
+if(/(^|[#-])eng($|-)/.test(hh.replace(/kod-[a-z0-9]+/,'')))st.lang='en';
+else if(saved==='en'||saved==='sv')st.lang=saved;
+else st.lang=/^sv\b/i.test((navigator&&navigator.language)||'sv')?'sv':'en';
+document.querySelectorAll('.npb').forEach(b=>b.addEventListener('click',()=>setPlayers(+b.dataset.np)));
+document.querySelectorAll('.posb').forEach(b=>b.addEventListener('click',()=>setPos(+b.dataset.pos)));
+$('code').value=st.code;
+$('code').addEventListener('change',e=>setCode(e.target.value));
+build();
+document.querySelectorAll('.segb').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===st.n));
+applyLang();
+if(st.np>1&&!st.code)showAsk();
+</script>
+</body>
+</html>
