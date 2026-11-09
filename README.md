@@ -2,7 +2,7 @@
 
 Ett kortspel för grupper där du pitchar dig själv. Varje kort har en bild och en fråga. Du **beskriver dig själv** enligt bilden, eller **berättar en situation** som matchar bilden. Valfri timer på 30 eller 60 sekunder gör det till en hissfärd.
 
-Spelet är en variant av [Icebreakers](https://github.com/MarcusMedina) med samma kortmotor och samma 45 bilder, men med nya frågor: varje bild har två frågor, så det blir 90 kort.
+Spelet är en variant av Icebreakers med samma kortmotor och samma 45 bilder, men med nya frågor: varje bild har två frågor, så det blir 90 kort.
 
 Svenska och engelska. Språkknappen uppe till höger byter direkt.
 
